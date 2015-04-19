@@ -15,6 +15,9 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+#define     ZOOM_IN_SCALE       0.5
+#define     ZOOM_OUT_SCALE      2.0
+
 @interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate>
 {
     BOOL _isPartnersLoaded;
@@ -92,7 +95,6 @@
         
         _isLoading = YES;
         [self showActivity];
-        NSLog(@"START LOAD radius - %ld", radius);
         
         [NetworkManager loadPointsAroundLongitude:@(center.longitude) latitude:@(center.latitude) radius:@(radius) completion:^(BOOL isSuccess, NSError *error)
          {
@@ -116,7 +118,6 @@
                   }
                   [self hideActivity];
                   _isLoading = NO;
-                  NSLog(@"FINISH LOAD");
               }];
          }];
     }
@@ -208,12 +209,12 @@
 
 - (IBAction)zoomInButtonPressed:(id)sender
 {
-    [self zoomMap:self.mapView byDelta:0.5];
+    [self zoomMap:self.mapView byDelta:ZOOM_IN_SCALE];
 }
 
 - (IBAction)zoomOutButtonPressed:(id)sender
 {
-    [self zoomMap:self.mapView byDelta:2.0];
+    [self zoomMap:self.mapView byDelta:ZOOM_OUT_SCALE];
 }
 
 @end

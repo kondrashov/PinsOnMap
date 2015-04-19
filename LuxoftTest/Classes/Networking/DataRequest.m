@@ -102,7 +102,7 @@
     if(_connection)
         [_connection cancel];
     
-    NSURLRequestCachePolicy cachePolicy = _cacheEnabled ? NSURLRequestReturnCacheDataElseLoad : NSURLRequestReloadIgnoringCacheData;
+    NSURLRequestCachePolicy cachePolicy = _cacheEnabled ? NSURLRequestReloadRevalidatingCacheData : NSURLRequestReloadIgnoringCacheData;
     NSURLRequest *request = [NSURLRequest requestWithURL:dataURL cachePolicy:cachePolicy timeoutInterval:TIMEOUT_INTERVAL];
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     [_connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
