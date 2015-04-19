@@ -36,13 +36,7 @@
     [super viewDidLoad];
     
     [self.locationManager startUpdatingLocation];
-    
-    [self showActivity];
-    [NetworkManager loadPartnersWithCompletion:^(BOOL isSuccess, NSError *error)
-    {
-        _isPartnersLoaded = YES;
-        [self loadPoints];
-    }];
+    [self loadPartners];
 }
 
 #pragma mark - Methods
@@ -79,6 +73,16 @@
     });
 }
 
+- (void)loadPartners
+{
+    [self showActivity];
+    [NetworkManager loadPartnersWithCompletion:^(BOOL isSuccess, NSError *error)
+     {
+         _isPartnersLoaded = YES;
+         [self loadPoints];
+     }];
+}
+
 - (void)loadPoints
 {
     if(_isPartnersLoaded && _isLocationDetected && !_isLoading)
@@ -97,10 +101,18 @@
                   [self.mapView removeAnnotations:self.mapView.annotations];
                   for(CPoint *point in objects)
                   {
-                      PointAnnotation *pointAnnotation = [PointAnnotation new];
-                      pointAnnotation.coordinate = CLLocationCoordinate2DMake([point.latitude doubleValue], [point.longitude doubleValue]);
-                      pointAnnotation.point = point;
-                      [self.mapView addAnnotation:pointAnnotation];
+                      CLLocationCoordinate2D centerCoor = [self mapCenterCoordinate];
+                      CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:centerCoor.latitude longitude:centerCoor.longitude];
+                      CLLocation *pointLocation = [[CLLocation alloc] initWithLatitude:[point.latitude doubleValue] longitude:[point.longitude doubleValue]];
+                      CLLocationDistance distance = [centerLocation distanceFromLocation:pointLocation];
+                      
+                      if(distance <= [self mapRadius])
+                      {
+                          PointAnnotation *pointAnnotation = [PointAnnotation new];
+                          pointAnnotation.coordinate = CLLocationCoordinate2DMake([point.latitude doubleValue], [point.longitude doubleValue]);
+                          pointAnnotation.point = point;
+                          [self.mapView addAnnotation:pointAnnotation];
+                      }
                   }
                   [self hideActivity];
                   _isLoading = NO;
@@ -133,6 +145,16 @@
 {
     CLLocationCoordinate2D topCenterCoor = [self.mapView convertPoint:CGPointMake(self.mapView.frame.size.width / 2.0f, 0) toCoordinateFromView:self.mapView];
     return topCenterCoor;
+}
+
+- (void)zoomMap:(MKMapView*)mapView byDelta:(float)delta
+{
+    MKCoordinateRegion region = mapView.region;
+    MKCoordinateSpan span = mapView.region.span;
+    span.latitudeDelta *= delta;
+    span.longitudeDelta *= delta;
+    region.span = span;
+    [mapView setRegion:region animated:YES];
 }
 
 #pragma mark - MKMapView delegate
@@ -175,6 +197,23 @@
     [self.locationManager stopUpdatingLocation];
     _isLocationDetected = YES;
     [self loadPoints];
+}
+
+#pragma mark - Actions
+
+- (IBAction)locateMeButtonPressed:(id)sender
+{
+    [self.locationManager startUpdatingLocation];
+}
+
+- (IBAction)zoomInButtonPressed:(id)sender
+{
+    [self zoomMap:self.mapView byDelta:0.5];
+}
+
+- (IBAction)zoomOutButtonPressed:(id)sender
+{
+    [self zoomMap:self.mapView byDelta:2.0];
 }
 
 @end

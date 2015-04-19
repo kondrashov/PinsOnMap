@@ -22,14 +22,67 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="fbt-1y-kVE"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hI-do-gLT">
+                                <rect key="frame" x="515" y="457" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="8Q6-to-m3M"/>
+                                    <constraint firstAttribute="height" constant="50" id="sPP-Jn-FRw"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="zoomIn">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="zoomInButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fom-fd-XxU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gg-me-cRl">
+                                <rect key="frame" x="515" y="523" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="fyR-Em-btf"/>
+                                    <constraint firstAttribute="height" constant="50" id="ly8-Vf-nQZ"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="zoomOut">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="zoomOutButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kME-PK-YKe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRa-Z5-PEt">
+                                <rect key="frame" x="23" y="480" width="50" height="76"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="1Ad-VA-xYd"/>
+                                    <constraint firstAttribute="height" constant="76" id="B1X-g4-HM4"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="locateme">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="locateMeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="55O-pD-J0j"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JRa-Z5-PEt" secondAttribute="bottom" constant="44" id="Daa-8J-eOV"/>
+                            <constraint firstItem="2gg-me-cRl" firstAttribute="top" secondItem="7hI-do-gLT" secondAttribute="bottom" constant="16" id="GIK-Hq-Cy5"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qGT-ES-HxV" secondAttribute="bottom" id="PKS-TD-ITO"/>
                             <constraint firstItem="qGT-ES-HxV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Pbh-rc-PAM"/>
+                            <constraint firstItem="7hI-do-gLT" firstAttribute="top" secondItem="JRa-Z5-PEt" secondAttribute="bottom" constant="14" id="Qzw-LW-CEO"/>
                             <constraint firstItem="qGT-ES-HxV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="S3x-zt-ndp"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2gg-me-cRl" secondAttribute="bottom" constant="27" id="XM9-Jd-jtc"/>
+                            <constraint firstAttribute="trailing" secondItem="2gg-me-cRl" secondAttribute="trailing" constant="35" id="c0y-Yn-Eoj"/>
+                            <constraint firstAttribute="trailing" secondItem="7hI-do-gLT" secondAttribute="trailing" constant="35" id="e0P-Nx-bdX"/>
+                            <constraint firstItem="JRa-Z5-PEt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="23" id="iAb-Yf-1oT"/>
+                            <constraint firstAttribute="trailing" secondItem="JRa-Z5-PEt" secondAttribute="trailing" constant="35" id="pNS-oV-oL9"/>
                             <constraint firstAttribute="trailing" secondItem="qGT-ES-HxV" secondAttribute="trailing" id="ytm-dJ-ysU"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="pNS-oV-oL9"/>
+                                <exclude reference="Qzw-LW-CEO"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="qGT-ES-HxV" id="6ST-W0-ToN"/>
@@ -39,4 +92,9 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="locateme" width="50" height="76"/>
+        <image name="zoomIn" width="50" height="50"/>
+        <image name="zoomOut" width="50" height="50"/>
+    </resources>
 </document>
