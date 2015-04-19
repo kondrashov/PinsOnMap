@@ -18,6 +18,11 @@
 		29343ECF1AE2A6E000074271 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 29343ECE1AE2A6E000074271 /* NetworkManager.m */; };
 		29343ED31AE2B3E200074271 /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 29343ED21AE2B3E200074271 /* StorageManager.m */; };
 		29343F0D1AE2F3AF00074271 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29343F0C1AE2F3AF00074271 /* MapViewController.m */; };
+		295113E31AE36F7A0019B718 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 295113E21AE36F7A0019B718 /* CoreLocation.framework */; };
+		295113EC1AE38C0E0019B718 /* PointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 295113EB1AE38C0E0019B718 /* PointAnnotation.m */; };
+		295113EF1AE38C1B0019B718 /* PointAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 295113EE1AE38C1B0019B718 /* PointAnnotationView.m */; };
+		295113F41AE391D50019B718 /* WebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 295113F31AE391D50019B718 /* WebImageView.m */; };
+		295113F81AE392360019B718 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 295113F71AE392360019B718 /* UIImage+Additions.m */; };
 		29EC7C811AE12DBF0098452D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EC7C801AE12DBF0098452D /* main.m */; };
 		29EC7C841AE12DBF0098452D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EC7C831AE12DBF0098452D /* AppDelegate.m */; };
 		29EC7C871AE12DBF0098452D /* LuxoftTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29EC7C851AE12DBF0098452D /* LuxoftTest.xcdatamodeld */; };
@@ -61,6 +66,15 @@
 		29343ED21AE2B3E200074271 /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageManager.m; sourceTree = "<group>"; };
 		29343F0B1AE2F3AF00074271 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		29343F0C1AE2F3AF00074271 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		295113E21AE36F7A0019B718 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		295113EA1AE38C0E0019B718 /* PointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotation.h; sourceTree = "<group>"; };
+		295113EB1AE38C0E0019B718 /* PointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointAnnotation.m; sourceTree = "<group>"; };
+		295113ED1AE38C1B0019B718 /* PointAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotationView.h; sourceTree = "<group>"; };
+		295113EE1AE38C1B0019B718 /* PointAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointAnnotationView.m; sourceTree = "<group>"; };
+		295113F21AE391D50019B718 /* WebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebImageView.h; sourceTree = "<group>"; };
+		295113F31AE391D50019B718 /* WebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebImageView.m; sourceTree = "<group>"; };
+		295113F61AE392360019B718 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
+		295113F71AE392360019B718 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
 		29EC7C7B1AE12DBF0098452D /* LuxoftTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuxoftTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29EC7C7F1AE12DBF0098452D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29EC7C801AE12DBF0098452D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -81,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				295113E31AE36F7A0019B718 /* CoreLocation.framework in Frameworks */,
 				29EC7CAA1AE12E8F0098452D /* CoreData.framework in Frameworks */,
 				29EC7CA81AE12E540098452D /* MapKit.framework in Frameworks */,
 			);
@@ -180,10 +195,48 @@
 		29343F0A1AE2F3AF00074271 /* MapViewController */ = {
 			isa = PBXGroup;
 			children = (
+				295113E91AE38C0E0019B718 /* Annotation */,
 				29343F0B1AE2F3AF00074271 /* MapViewController.h */,
 				29343F0C1AE2F3AF00074271 /* MapViewController.m */,
 			);
 			path = MapViewController;
+			sourceTree = "<group>";
+		};
+		295113E91AE38C0E0019B718 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				295113EA1AE38C0E0019B718 /* PointAnnotation.h */,
+				295113EB1AE38C0E0019B718 /* PointAnnotation.m */,
+				295113ED1AE38C1B0019B718 /* PointAnnotationView.h */,
+				295113EE1AE38C1B0019B718 /* PointAnnotationView.m */,
+			);
+			path = Annotation;
+			sourceTree = "<group>";
+		};
+		295113F01AE391C30019B718 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				295113F11AE391C30019B718 /* WebImageView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		295113F11AE391C30019B718 /* WebImageView */ = {
+			isa = PBXGroup;
+			children = (
+				295113F21AE391D50019B718 /* WebImageView.h */,
+				295113F31AE391D50019B718 /* WebImageView.m */,
+			);
+			path = WebImageView;
+			sourceTree = "<group>";
+		};
+		295113F51AE392360019B718 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				295113F61AE392360019B718 /* UIImage+Additions.h */,
+				295113F71AE392360019B718 /* UIImage+Additions.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		29EC7C721AE12DBF0098452D = {
@@ -248,6 +301,7 @@
 		29EC7CAC1AE130450098452D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				295113E21AE36F7A0019B718 /* CoreLocation.framework */,
 				29EC7CA91AE12E8F0098452D /* CoreData.framework */,
 				29EC7CA71AE12E540098452D /* MapKit.framework */,
 			);
@@ -257,6 +311,8 @@
 		29EC7CAD1AE15C190098452D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				295113F51AE392360019B718 /* Categories */,
+				295113F01AE391C30019B718 /* Views */,
 				29343ED01AE2B3CA00074271 /* DataStorage */,
 				29343EC91AE2A54E00074271 /* Networking */,
 				29343EAB1AE2994F00074271 /* CoreData */,
@@ -364,6 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				295113EF1AE38C1B0019B718 /* PointAnnotationView.m in Sources */,
 				29343EC21AE299F600074271 /* CPartner+Extensions.m in Sources */,
 				29343EB91AE299C100074271 /* CPartner.m in Sources */,
 				29343ECF1AE2A6E000074271 /* NetworkManager.m in Sources */,
@@ -374,10 +431,13 @@
 				29EC7C841AE12DBF0098452D /* AppDelegate.m in Sources */,
 				29343EB01AE2994F00074271 /* CoreDataManager.m in Sources */,
 				29343EC71AE29A1F00074271 /* NSManagedObject+Extensions.m in Sources */,
+				295113F41AE391D50019B718 /* WebImageView.m in Sources */,
 				29343EBF1AE299E700074271 /* CPoint+Extensions.m in Sources */,
+				295113F81AE392360019B718 /* UIImage+Additions.m in Sources */,
 				29EC7C811AE12DBF0098452D /* main.m in Sources */,
 				29343ECC1AE2A55F00074271 /* DataRequest.m in Sources */,
 				29343F0D1AE2F3AF00074271 /* MapViewController.m in Sources */,
+				295113EC1AE38C0E0019B718 /* PointAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

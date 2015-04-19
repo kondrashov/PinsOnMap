@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7F7AB442-3327-41CD-881A-CF1D3561B0BB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LuxoftTest</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>66B0FD3EFA661CC49A3F726B8386F6A797CEE297</key>
+		<string>https://github.com/kondrashov/PinsOnMap.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LuxoftTest.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>66B0FD3EFA661CC49A3F726B8386F6A797CEE297</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/kondrashov/PinsOnMap.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>66B0FD3EFA661CC49A3F726B8386F6A797CEE297</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>66B0FD3EFA661CC49A3F726B8386F6A797CEE297</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PinsOnMap</string>
+		</dict>
+	</array>
+</dict>
+</plist>

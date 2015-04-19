@@ -10,6 +10,7 @@
 #import "CoreDataManager.h"
 #import "CPartner+Extensions.h"
 #import "CPoint+Extensions.h"
+#import "NSManagedObject+Extensions.h"
 
 NSString * const kPartnerId     = @"id";
 NSString * const kName          = @"name";
@@ -64,6 +65,11 @@ NSString * const kLongitude     = @"longitude";
             [self savePrivateContext:privateContext mainContext:mainContext completion:completion];            
         }];
     }
+}
+
++ (void)fetchAllPointsWithCompletion:(void (^)(NSArray *objects, NSError *error))completion
+{
+    return [CPoint asyncFetchAllObjects:completion];
 }
 
 #pragma mark - Private methods

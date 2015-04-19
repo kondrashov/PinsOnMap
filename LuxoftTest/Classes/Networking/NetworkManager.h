@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString * const kImageBaseURL = @"https://static.tcsbank.ru/icons/deposition-partners-v3/mdpi/";
 
 @interface NetworkManager : NSObject
 

@@ -16,4 +16,6 @@
 + (void)savePoints:(NSArray *)points
         completion:(void(^)(BOOL isSuccess, NSError * error))completion;
 
++ (void)fetchAllPointsWithCompletion:(void (^)(NSArray *objects, NSError *error))completion;
+
 @end
