@@ -17,6 +17,7 @@
     
     NSMutableData       *_data;
     NSURLConnection     *_connection;
+    NSString            *_requestIdentifier;
     dispatch_queue_t    _dataRequestQueee;
 }
 
@@ -49,6 +50,11 @@
 
 #pragma mark - Public methods
 
+- (NSString *)requestIdentifier
+{
+    return _requestIdentifier;
+}
+
 + (instancetype)request
 {
     return [self new];
@@ -58,9 +64,10 @@
                               progress:(ProgressBlock)progress
                             completion:(CompletionBlock)completion
                           cacheEnabled:(BOOL)cacheEnabled
+                             requestId:(NSString *)requestId
 {
     DataRequest *dataRequest = [DataRequest request];
-    [dataRequest loadDataWithStringURL:stringURL progress:progress completion:completion cacheEnabled:cacheEnabled];
+    [dataRequest loadDataWithStringURL:stringURL progress:progress completion:completion cacheEnabled:cacheEnabled requestId:requestId];
     return dataRequest;
 }
 
@@ -68,9 +75,10 @@
                      progress:(ProgressBlock)progress
                    completion:(CompletionBlock)completion
                  cacheEnabled:(BOOL)cacheEnabled
+                    requestId:(NSString *)requestId
 {
     NSURL *requestURL = [NSURL URLWithString:stringURL];
-    [self loadDataWithURL:requestURL progress:progress completion:completion cacheEnabled:cacheEnabled];
+    [self loadDataWithURL:requestURL progress:progress completion:completion cacheEnabled:cacheEnabled requestId:requestId];
 }
 
 - (void)cancelRequest
@@ -84,10 +92,12 @@
                progress:(ProgressBlock)progress
              completion:(CompletionBlock)completion
            cacheEnabled:(BOOL)cacheEnabled
+              requestId:(NSString *)requestId
 {
     self.progressBlock = progress;
     self.completionBlock = completion;
     _cacheEnabled = cacheEnabled;
+    _requestIdentifier = requestId;
     
     if(_connection)
         [_connection cancel];
@@ -109,7 +119,7 @@
                         self.progressBlock(100);
                     
                     if(self.completionBlock != NULL)
-                        self.completionBlock(cachedResponse.data, YES, nil);
+                        self.completionBlock(cachedResponse.data, YES, self, nil);
                 }
                 else
                 {
@@ -165,14 +175,14 @@
 {
     _connection = nil;
     if(self.completionBlock != NULL)
-        self.completionBlock(_data, NO, nil);
+        self.completionBlock(_data, NO, self, nil);
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     _connection = nil;
     if(self.completionBlock != NULL)
-        self.completionBlock(nil, NO, error);
+        self.completionBlock(nil, NO, self, error);
 }
 
 @end

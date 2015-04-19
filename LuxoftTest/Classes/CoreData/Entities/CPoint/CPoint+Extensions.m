@@ -17,13 +17,18 @@
                          latitude:(double)latitude
                           context:(NSManagedObjectContext *)context;
 {
-    CPoint *point = [self fetchPointWithPartnerId:partnerId longitude:longitude latitude:latitude context:context];
-    if(!point)
+    CPoint *point;
+    CPartner *partner = [CPartner fetchPartnerWithId:partnerId context:context];
+    if(partner)
     {
-        point = [self createNewObjectInContext:context];
-        point.partner = [CPartner fetchPartnerWithId:partnerId context:context];
-        point.longitude = @(longitude);
-        point.latitude = @(latitude);
+        point = [self fetchPointWithPartnerId:partnerId longitude:longitude latitude:latitude context:context];
+        if(!point)
+        {
+            point = [self createNewObjectInContext:context];
+            point.partner = partner;
+            point.longitude = @(longitude);
+            point.latitude = @(latitude);
+        }
     }
     return point;
 }

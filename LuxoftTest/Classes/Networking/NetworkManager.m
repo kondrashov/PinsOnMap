@@ -16,30 +16,60 @@ NSString * const pointsURL = @"/deposition_points";
 
 NSString * const kPayload = @"payload";
 
+@interface NetworkManager()
+{
+    NSMutableArray  *_requestsArray;
+}
+@end
+
 @implementation NetworkManager
+
+#pragma mark - Lifecycle
+
++ (instancetype)sharedInstance
+{
+    static NetworkManager *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [NetworkManager new];
+    });
+    return instance;
+}
 
 #pragma mark - Public methods
 
 + (void)loadPartnersWithCompletion:(void(^)(BOOL isSuccess, NSError * error))completion
 {
     NSString *stringURL = [NSString stringWithFormat:@"%@%@", baseURL, partnersURL];
-    [DataRequest loadDataWithStringURL:stringURL progress:NULL completion:^(NSData *data, BOOL fromCache, NSError *error)
+    NetworkManager *networkManager = [self sharedInstance];
+    DataRequest *dataRequest = [DataRequest loadDataWithStringURL:stringURL progress:NULL completion:^(NSData *data, BOOL fromCache, DataRequest *request, NSError *error)
     {
         if(data && data.length > 0)
         {
             [self parseData:data completion:^(NSArray *payloadArray)
             {
                 if(payloadArray)
-                    [StorageManager savePartners:payloadArray completion:completion];
+                {
+                    [StorageManager savePartners:payloadArray completion:^(BOOL isSuccess, NSError *error)
+                     {
+                        [[networkManager requestsArray] removeObject:request];
+                         completion(isSuccess, error);
+                     }];
+                }
                 else
+                {
+                    [[networkManager requestsArray] removeObject:request];
                     completion(NO, nil);
+                }
             }];
         }
         else
         {
+            [[networkManager requestsArray] removeObject:request];
             completion(NO, error);
         }
-    } cacheEnabled:NO];
+    } cacheEnabled:NO requestId:kPartnersRequest];
+    [[networkManager requestsArray] addObject:dataRequest];
 }
 
 + (void)loadPointsAroundLongitude:(NSNumber *)longitude
@@ -49,26 +79,59 @@ NSString * const kPayload = @"payload";
 
 {
     NSString *stringURL = [NSString stringWithFormat:@"%@%@?latitude=%@&longitude=%@&radius=%@", baseURL, pointsURL, latitude, longitude, radius];
-    [DataRequest loadDataWithStringURL:stringURL progress:NULL completion:^(NSData *data, BOOL fromCache, NSError *error)
+    NetworkManager *networkManager = [self sharedInstance];
+    DataRequest *dataRequest = [DataRequest loadDataWithStringURL:stringURL progress:NULL completion:^(NSData *data, BOOL fromCache, DataRequest *request, NSError *error)
      {
          if(data && data.length > 0)
          {
              [self parseData:data completion:^(NSArray *payloadArray)
              {
-                 if(payloadArray)
-                      [StorageManager savePoints:payloadArray completion:completion];
+                 if(payloadArray && payloadArray.count > 0)
+                 {
+                      [StorageManager savePoints:payloadArray completion:^(BOOL isSuccess, NSError *error)
+                      {
+                          [[networkManager requestsArray] removeObject:request];
+                          completion(isSuccess, error);
+                      }];
+                 }
                  else
+                 {
+                     [[networkManager requestsArray] removeObject:request];
                      completion(NO, nil);
+                 }
              }];
          }
          else
          {
+             [[networkManager requestsArray] removeObject:request];
              completion(NO, error);
          }
-     } cacheEnabled:NO];
+     } cacheEnabled:NO requestId:kPointsRequest];
+    [[networkManager requestsArray] addObject:dataRequest];
+}
+
++ (void)cancelRequestsWithId:(NSString *)requestsId
+{
+    NSMutableArray *requestsArray = [[self sharedInstance] requestsArray];
+    for(DataRequest *request in [requestsArray copy])
+    {
+        if([request.requestIdentifier isEqualToString:requestsId])
+        {
+            [request cancelRequest];
+            [requestsArray removeObject:request];
+        }
+    }
 }
 
 #pragma mark - Private methods
+
+- (NSMutableArray *)requestsArray
+{
+    if(!_requestsArray)
+        _requestsArray = [NSMutableArray array];
+
+    return _requestsArray;
+}
 
 + (void)parseData:(NSData *)data completion:(void(^)(NSArray *payloadArray))completion
 {

@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class DataRequest;
+
 typedef void (^ProgressBlock)(CGFloat progress);
-typedef void (^CompletionBlock)(NSData *data, BOOL fromCache, NSError *error);
+typedef void (^CompletionBlock)(NSData *data, BOOL fromCache, DataRequest *request, NSError *error);
 
 @interface DataRequest : NSObject
 
@@ -19,13 +21,16 @@ typedef void (^CompletionBlock)(NSData *data, BOOL fromCache, NSError *error);
 + (DataRequest *)loadDataWithStringURL:(NSString *)stringURL
                               progress:(ProgressBlock)progress
                             completion:(CompletionBlock)completion
-                          cacheEnabled:(BOOL)cacheEnabled;
+                          cacheEnabled:(BOOL)cacheEnabled
+                             requestId:(NSString *)requestId;
 
 - (void)loadDataWithStringURL:(NSString *)stringURL
                      progress:(ProgressBlock)progress
                    completion:(CompletionBlock)completion
-                 cacheEnabled:(BOOL)cacheEnabled;
+                 cacheEnabled:(BOOL)cacheEnabled
+                    requestId:(NSString *)requestId;
 
 - (void)cancelRequest;
+- (NSString *)requestIdentifier;
 
 @end

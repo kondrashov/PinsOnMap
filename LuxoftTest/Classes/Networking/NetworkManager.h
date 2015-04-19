@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 static NSString * const kImageBaseURL = @"https://static.tcsbank.ru/icons/deposition-partners-v3/mdpi/";
+static NSString * const kPartnersRequest = @"partnersRequest";
+static NSString * const kPointsRequest = @"pointsRequest";
 
 @interface NetworkManager : NSObject
 
@@ -18,5 +20,7 @@ static NSString * const kImageBaseURL = @"https://static.tcsbank.ru/icons/deposi
                          latitude:(NSNumber *)latitude
                            radius:(NSNumber *)radius
                        completion:(void(^)(BOOL isSuccess, NSError * error))completion;
+
++ (void)cancelRequestsWithId:(NSString *)requestsId;
 
 @end

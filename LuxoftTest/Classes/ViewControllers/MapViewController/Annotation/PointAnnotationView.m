@@ -19,7 +19,6 @@
 {
     WebImageView    *_webImageView;
 }
-
 @end
 
 @implementation PointAnnotationView
