@@ -38,6 +38,7 @@
 {
     [super viewDidLoad];
     
+    [self fetchPointsWithCompletion:NULL];
     [self.locationManager startUpdatingLocation];
     [self loadPartners];
 }
@@ -98,29 +99,46 @@
         
         [NetworkManager loadPointsAroundLongitude:@(center.longitude) latitude:@(center.latitude) radius:@(radius) completion:^(BOOL isSuccess, NSError *error)
          {
-             [StorageManager fetchAllPointsWithCompletion:^(NSArray *objects, NSError *error)
-              {
-                  [self.mapView removeAnnotations:self.mapView.annotations];
-                  for(CPoint *point in objects)
-                  {
-                      CLLocationCoordinate2D centerCoor = [self mapCenterCoordinate];
-                      CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:centerCoor.latitude longitude:centerCoor.longitude];
-                      CLLocation *pointLocation = [[CLLocation alloc] initWithLatitude:[point.latitude doubleValue] longitude:[point.longitude doubleValue]];
-                      CLLocationDistance distance = [centerLocation distanceFromLocation:pointLocation];
-                      
-                      if(distance <= [self mapRadius])
-                      {
-                          PointAnnotation *pointAnnotation = [PointAnnotation new];
-                          pointAnnotation.coordinate = CLLocationCoordinate2DMake([point.latitude doubleValue], [point.longitude doubleValue]);
-                          pointAnnotation.point = point;
-                          [self.mapView addAnnotation:pointAnnotation];
-                      }
-                  }
-                  [self hideActivity];
-                  _isLoading = NO;
-              }];
+             _isLoading = NO;
+             [self fetchPointsWithCompletion:^{
+                 [self hideActivity];
+                 
+             }];
          }];
     }
+}
+
+- (void)fetchPointsWithCompletion:(void(^)(void))completion
+{
+    [StorageManager fetchAllPointsWithCompletion:^(NSArray *objects, NSError *error)
+     {
+         [self.mapView removeAnnotations:self.mapView.annotations];
+         
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             
+             for(CPoint *point in objects)
+             {
+                 CLLocationCoordinate2D centerCoor = [self mapCenterCoordinate];
+                 CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:centerCoor.latitude longitude:centerCoor.longitude];
+                 CLLocation *pointLocation = [[CLLocation alloc] initWithLatitude:[point.latitude doubleValue] longitude:[point.longitude doubleValue]];
+                 CLLocationDistance distance = [centerLocation distanceFromLocation:pointLocation];
+                 
+                 if(distance <= [self mapRadius])
+                 {
+                     PointAnnotation *pointAnnotation = [PointAnnotation new];
+                     pointAnnotation.coordinate = CLLocationCoordinate2DMake([point.latitude doubleValue], [point.longitude doubleValue]);
+                     pointAnnotation.point = point;
+                     
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         [self.mapView addAnnotation:pointAnnotation];
+                     });
+                 }
+             }
+             
+             if(completion != NULL)
+                 completion();
+         });
+     }];
 }
 
 - (CLLocationDistance)mapRadius
@@ -179,8 +197,23 @@
         }
         return pointAnnotationView;
     }
-    else
-        return nil;
+    else if([annotation isKindOfClass:[MKUserLocation class]])
+    {
+        static NSString *annotationIdentifier = @"userAnnotationId";
+        MKPinAnnotationView *pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:annotationIdentifier];
+        
+        if (!pinView)
+        {
+            pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationIdentifier];
+            [pinView setPinColor:MKPinAnnotationColorRed];
+        }
+        else
+            pinView.annotation = annotation;
+        
+        return pinView;
+    }
+    
+    return nil;
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
@@ -192,9 +225,10 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    CLLocation *location = [locations lastObject];    
+    CLLocation *location = [locations lastObject];
     MKCoordinateRegion neededRegion = MKCoordinateRegionMake(location.coordinate, MKCoordinateSpanMake(.01, .01));
     [self.mapView setRegion:neededRegion animated:NO];
+    self.mapView.showsUserLocation = YES;
     [self.locationManager stopUpdatingLocation];
     _isLocationDetected = YES;
     [self loadPoints];
